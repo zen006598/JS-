@@ -1,5 +1,4 @@
 const btnContainer = document.querySelector("#btn-container");
-const btn = `<button type="button" class="btn btn-primary"></button>`;
 const displayedChecked = document.querySelector("#dispaly-checked");
 
 for (let i = 0; i < 5; i++) {
@@ -9,27 +8,21 @@ for (let i = 0; i < 5; i++) {
   btnContainer.insertAdjacentHTML("beforeend", chk);
 }
 
-const btns = document.querySelectorAll(".btn");
-const chks = document.querySelectorAll(".chk");
+btnContainer.addEventListener("click", (e) => {
+  if (e.target.classList.contains("btn")) {
+    const radioButton = e.target.nextElementSibling;
 
-btns.forEach((b) => b.addEventListener("click", (e) => btnAndChkClick(e)));
-chks.forEach((b) => {
-  b.addEventListener("change", (e) => {
-    setDisplayedChecked(e.currentTarget.id);
-  });
+    if (radioButton) {
+      radioButton.checked = true;
+      const event = new Event("change", {
+        bubbles: true,
+        cancelable: true,
+      });
+      radioButton.dispatchEvent(event);
+    }
+  }
 });
 
-function btnAndChkClick(e) {
-  const nextSibling = e.currentTarget.nextSibling;
-  nextSibling.checked = true;
-
-  const event = new Event("change", {
-    bubbles: true,
-    cancelable: true,
-  });
-  nextSibling.dispatchEvent(event);
-}
-
-function setDisplayedChecked(t) {
-  displayedChecked.textContent = t;
-}
+btnContainer.addEventListener("change", (e) => {
+  displayedChecked.textContent = `${e.target.id}`;
+});
