@@ -1,9 +1,7 @@
 const btnContainer = document.querySelector("#btn-container");
-const displayedChecked = document.querySelector("#dispaly-checked");
-
 for (let i = 0; i < 5; i++) {
-  const btn = `<button type="button" class="btn btn-primary m-1" id='btn-${i}'>${i}</button>`;
-  const chk = `<input type="radio" id='ckh-${i}' name='a' class='d-none chk'/>`;
+  const btn = `<button type="button" class="btn btn-light m-1" id='btn-${i}'>${i}</button>`;
+  const chk = `<input type="radio" id='chk-${i}' name='a' class='d-none chk'/>`;
   btnContainer.insertAdjacentHTML("beforeend", btn);
   btnContainer.insertAdjacentHTML("beforeend", chk);
 }
@@ -24,5 +22,19 @@ btnContainer.addEventListener("click", (e) => {
 });
 
 btnContainer.addEventListener("change", (e) => {
-  displayedChecked.textContent = `${e.target.id}`;
+  updateButtonStyles(btnContainer, e.target.id.replace("chk", "btn"));
 });
+
+function updateButtonStyles(container, activeButtonId) {
+  const buttons = container.querySelectorAll(".btn");
+  buttons.forEach((btn) => {
+    btn.classList.remove("btn-primary");
+    btn.classList.add("btn-light");
+  });
+
+  const activeButton = container.querySelector(`#${activeButtonId}`);
+  if (activeButton) {
+    activeButton.classList.remove("btn-light");
+    activeButton.classList.add("btn-primary");
+  }
+}
